@@ -1,0 +1,688 @@
+:root {
+    /* Paleta Vegetación Zen */
+    --verde-bosque: #4a7c59;    /* Títulos y acentos fuertes */
+    --verde-hoja: #8fcb9b;      /* Botones y acentos suaves */
+    --crema-fondo: #f9f7f2;     /* Fondo general relajante */
+    --tierra: #5b4d42;          /* Texto y detalles orgánicos */
+    --blanco-puro: #ffffff;
+    --bg-color: var(--crema-fondo);
+    --dark: var(--verde-bosque);
+    --cell-size: 60px;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--tierra);
+}
+
+/* HEADER */
+.main-header {
+    background: var(--dark);
+    color: var(--crema-fondo);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    height: 60px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(74, 124, 89, 0.2);
+}
+
+.main-header h1 {
+    font-size: 1.2rem;
+    margin: 0;
+    white-space: nowrap;
+    font-family: 'Georgia', serif; /* Toque elegante */
+    letter-spacing: 1px;
+}
+
+/* MENÚ LATERAL (Estilo Botánico) */
+#menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -350px; 
+    width: 300px;
+    height: 100%;
+    background: var(--crema-fondo);
+    background-image: radial-gradient(var(--verde-hoja) 0.5px, transparent 0.5px);
+    background-size: 15px 15px; /* Sutil textura orgánica */
+    z-index: 1000;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    padding: 0; /* Controlado por secciones */
+    visibility: hidden;
+    border-right: 1px solid #d1d9cf;
+}
+
+#menu-lateral.active {
+    left: 0;
+    visibility: visible;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+}
+
+#ui-menu_busqueda {
+    background: var(--verde-bosque);
+    color: white;
+    margin: 0;
+    padding: 25px 20px;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.search-box {
+    padding: 20px;
+}
+
+#buscador {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c3d1c5;
+    border-radius: 25px; /* Forma de guijarro */
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+#buscador:focus {
+    border-color: var(--verde-bosque);
+    box-shadow: 0 0 10px rgba(143, 203, 155, 0.3);
+}
+
+/* ACORDEONES */
+.grupo-filtro h3 {
+    cursor: pointer;
+    background: transparent;
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #e2e8e1;
+    color: var(--tierra);
+    display: flex;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.grupo-filtro h3:hover {
+    background: rgba(143, 203, 155, 0.1);
+}
+
+.grupo-filtro.abierto h3 {
+    color: var(--verde-bosque);
+    font-weight: bold;
+}
+
+.contenido-filtro {
+    display: none;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.grupo-filtro.abierto .contenido-filtro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* BOTONES DE FILTRO */
+button {
+    cursor: pointer;
+    border: 1px solid #d1d9cf;
+    background: var(--blanco-puro);
+    padding: 8px 15px;
+    border-radius: 18px; /* Redondeado natural */
+    color: var(--tierra);
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: var(--verde-hoja);
+    color: var(--verde-bosque);
+    border-color: var(--verde-bosque);
+    transform: translateY(-1px);
+}
+
+/* SUB-NAV SUPERIOR (Botón a caballo) */
+.sub-nav-container {
+    position: relative;
+    background: var(--blanco-puro);
+    width: 100%;
+    z-index: 100;
+}
+
+#sub-nav-content {
+    display: none;
+    background: var(--blanco-puro);
+    padding: 20px 10px 30px 10px;
+    border-bottom: 1px solid #e2e8e1;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#sub-nav-content.active {
+    display: flex;
+}
+
+#btn-toggle-sub {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -15px;
+    z-index: 110;
+    background: var(--verde-hoja);
+    color: var(--verde-bosque);
+    border: 2px solid var(--verde-bosque);
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* TABLA PERIÓDICA */.grid-table {
+    display: grid;
+    /* Cambia las siguientes dos líneas: */
+    grid-template-columns: repeat(18, var(--cell-size)); 
+    grid-auto-rows: var(--cell-size);
+    gap: 5px;
+    padding: 25px;
+    margin: 0 auto;
+    overflow-x: auto;
+    background-color: var(--crema-fondo);
+}
+
+
+
+.celda-base {
+    border: 1px solid transparent; /* Antes era #d1d9cf */
+    background-color: transparent; /* Antes era var(--blanco-puro) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: 0.2s;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    font-size: var(--cell-size); /* Para el escalado elástico que hablamos */
+    color: transparent; /* Oculta el número de posición (1, 2, 3...) */
+}
+/* Esta regla hará que solo brillen los elementos reales */
+.elemento-active {
+    border: 1px solid var(--verde-bosque) !important;
+    background-color: var(--blanco-puro) !important;
+    color: var(--tierra) !important;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(74, 124, 89, 0.1);
+}
+.elemento-active {
+    border: 1px solid var(--verde-bosque);
+    color: var(--tierra);
+    font-weight: bold;
+    background-color: var(--blanco-puro);
+    box-shadow: 0 2px 5px rgba(74, 124, 89, 0.1);
+}
+.atomo-num {
+    position: absolute;
+    top: 5%;
+    left: 8%;
+    font-size: 0.18em; /* Tamaño basado en el tamaño de la celda */
+    color: var(--verde-bosque);
+}
+/* El símbolo químico (centro) */
+.simbolo {
+    font-size: 0.4em; /* Se agranda proporcionalmente */
+    display: block;
+}
+/* El nombre del elemento (abajo) */
+.celda-base small {
+    font-size: 0.15em !important; /* Ajuste automático */
+    position: absolute;
+    bottom: 5%;
+    width: 90%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* OVERLAY */
+#overlay-menu {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(74, 124, 89, 0.3); /* Overlay con tinte verde */
+    backdrop-filter: blur(2px);
+    display: none;
+    z-index: 999;
+}
+
+#overlay-menu.active { display: block; }
+
+/* Botón de limpiar filtros especial */
+.btn-clear {
+    width: calc(100% - 40px);
+    margin: 20px;
+    background: #fdf2f2 !important;
+    color: #c0392b !important;
+    border: 1px dashed #e74c3c !important;
+}
+/* --- ESTILO DE LOS CONTENEDORES DE ÁRBOL --- */
+.item-arbol-padre {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Esto pone el (\/) a la derecha */
+    gap: 10px;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.btn-principal-arbol {
+    flex-grow: 1; /* El botón de nombre ocupa todo el espacio posible */
+    text-align: left;
+}
+
+.btn-desplegar-sub {
+    min-width: 45px;
+    background: rgba(143, 203, 155, 0.2) !important;
+    border: 1px solid var(--verde-hoja) !important;
+    color: var(--verde-bosque) !important;
+    font-size: 0.8rem;
+}
+
+/* --- LIMPIEZA DE SUB-CATEGORÍAS --- */
+.sub-lista-arbol {
+    display: flex;
+    flex-wrap: wrap; /* Para que se acomoden en filas si no caben */
+    gap: 6px;
+    padding: 10px 0 15px 15px; /* Espacio a la izquierda para indicar jerarquía */
+    border-left: 2px solid var(--verde-hoja); /* Una línea sutil y limpia */
+    margin-left: 10px;
+}
+
+.sub-lista-arbol button {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    background: var(--blanco-puro);
+    border-radius: 12px;
+}
+.hidden {
+    display: none !important;
+}
+/* --- ESTILO DE PUBLICIDAD INTEGRADA --- */
+.publicidad {
+    width: 90%;
+    max-width: 728px; /* Tamaño estándar de banners */
+    margin: 20px auto;
+    padding: 15px;
+    background: #e9f0e8; /* Un verde muy pálido */
+    border: 1px dashed #4a7c59; /* Borde discontinuo orgánico */
+    border-radius: 12px;
+    
+    /* Texto */
+    color: #5b4d42;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    
+    /* Sombra suave */
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.5);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Pequeño detalle de esquina */
+.publicidad::before {
+    content: '🍃';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+.publicidad::after {
+    content: 'Anuncio';
+    position: absolute;
+    bottom: 2px;
+    right: 10px;
+    font-size: 0.6rem;
+    color: #4a7c59;
+    font-weight: bold;
+}
+/* --- MODAL CONFIGURACIÓN --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: var(--blanco-puro);
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid var(--verde-hoja);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.config-item {
+    margin-bottom: 25px;
+}
+
+.config-item label {
+    display: block;
+    color: var(--verde-bosque);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Estilo del Range (Deslizador) */
+#range-tamano {
+    width: 80%;
+    accent-color: var(--verde-hoja);
+}
+
+#valor-tamano {
+    font-weight: bold;
+    color: var(--verde-bosque);
+    margin-left: 10px;
+}
+
+.btn-cerrar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--verde-bosque);
+    cursor: pointer;
+}
+/* --- FOOTER ZEN --- */
+.main-footer {
+    background: var(--verde-bosque);
+    color: var(--crema-fondo);
+    padding: 2.5rem 1rem;
+    border-top: 4px solid var(--verde-hoja);
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-version {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+}
+
+.footer-leaf {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 5px var(--verde-hoja));
+}
+
+.btn-contacto {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid var(--verde-hoja);
+    color: var(--crema-fondo);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-contacto:hover {
+    background: var(--verde-hoja);
+    color: var(--verde-bosque);
+    transform: translateY(-2px);
+}
+
+.footer-sub-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.sub-link-item {
+    position: relative;
+}
+
+.footer-sub-links a {
+    color: var(--crema-fondo);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-sub-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Efecto Popover opcional */
+.sub-link-item .popover {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--crema-fondo);
+    color: var(--verde-bosque);
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sub-link-item:hover .popover {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+
+
+/* Estado del botón de filtro cuando está activo */
+.btn-filtro-activo {
+    background-color: var(--verde-bosque) !important;
+    color: white !important;
+    border-color: var(--verde-hoja) !important;
+    box-shadow: 0 0 10px rgba(74, 124, 89, 0.4);
+}
+
+/* La letra del bloque en la esquina inferior derecha de la celda */.bloque-tag {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 0.2em; /* Relativo al tamaño de celda */
+    font-weight: bold;
+    color: var(--verde-bosque);
+    text-transform: uppercase;
+    pointer-events: none;
+}
+/* El icono de estado físico (arriba a la derecha) */
+.estado-icon-tag {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 0.22em; /* Un poco más grande que el número atómico para que se vea bien */
+    pointer-events: none;
+    line-height: 1;
+}
+.origen-icon-tag {
+    position: absolute;
+    top: 5%;
+    right: 5%; /* Por defecto igual que el estado */
+    font-size: 0.22em;
+    pointer-events: none;
+    z-index: 2;
+}
+.tipo-icon-tag {
+    position: absolute;
+    top: 5%;
+    left: 25%; /* Se desplaza a la derecha del número atómico */
+    font-size: 0.22em;
+    pointer-events: none;
+    z-index: 2;
+}
+/* Clases de fondo para familias */
+.bg-alcalinos { background-color: #FF6B6B !important; color: white; }
+.bg-alcalinoterreos { background-color: #FFAD60 !important; color: white; }
+.bg-transicion { background-color: #4D96FF !important; color: white; }
+.bg-post-transicion { background-color: #6BCB77 !important; color: white; }
+.bg-lantanidos { background-color: #D49BFF !important; color: white; }
+.bg-actinidos { background-color: #FF87CA !important; color: white; }
+.bg-otros-no-metales { background-color: #4CC9F0 !important; color: white; }
+.bg-halogenos { background-color: #FFD93D !important; color: black; } /* Letra negra para mejor contraste */
+.bg-nobles { background-color: #B1AFFF !important; color: white; }
+
+/* Transición suave para el color */
+.celda-base {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+/*8$685$85$96_9696"97_/7_97_96_79_96_96_96*/
+/* Bordes Fosforescentes (Estabilidad Nuclear) */
+.glow-radiactivo {
+    border: 2px solid #39FF14 !important; /* Verde Neón */
+    box-shadow: inset 0 0 8px #39FF14, 0 0 15px #39FF14 !important;
+    z-index: 5;
+    position: relative;
+}
+.glow-estable {
+    border: 2px solid #bdc3c7 !important; /* Gris Plata Metálico */
+    box-shadow: inset 0 0 8px #bdc3c7, 0 0 15px rgba(189, 195, 199, 0.9) !important;
+    z-index: 5;
+    position: relative;
+}
+
+
+
+.glow-inestable {
+    border: 2px solid #FF3131 !important; /* Rojo Neón */
+    box-shadow: inset 0 0 8px #FF3131, 0 0 15px #FF3131 !important;
+    z-index: 5;
+    position: relative;
+}
+
+
+/* Ajuste para que el brillo se vea bien */
+.celda-base {
+    transition: all 0.3s ease;
+}
+
+/*VENTANA DE INFORMACION*/
+.modal-info {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; transition: opacity 0.3s;
+}
+.modal-info.hidden { display: none; }
+
+.modal-info-content {
+    background: var(--crema-fondo);
+    color: var(--verde-bosque);
+    padding: 2rem; border-radius: 15px;
+    width: 90%; max-width: 500px;
+    position: relative; border: 2px solid var(--verde-hoja);
+}
+
+.info-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+#info-simbolo-caja { width: 80px; height: 80px; font-size: 1.5rem; pointer-events: none; }
+.info-titulo h2 { font-size: 2rem; margin: 0; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.stat-item { background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; text-align: center; }
+
+.info-cuerpo h3 { border-bottom: 1px solid var(--verde-hoja); margin-top: 1.5rem; }
+#info-usos { padding-left: 1.2rem; margin-top: 10px; }
+.Ocultar{
+  display: none;
+}
+/********************************/
+/********************************/
+/********************************/
+.cinta-trabajando {
+    width: 100%;
+    background-color: #ffd700; /* Un color amarillo "obra" o puedes usar var(--verde-hoja) */
+    color: #000;
+    overflow: hidden;
+    position: fixed;
+    top: 0; /* Cambia a 'bottom: 0' si la prefieres abajo */
+    left: 0;
+    z-index: 9999; /* Para que esté por encima de todo */
+    padding: 8px 0;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    pointer-events: none; /* Para que no estorbe si quieres hacer clic debajo */
+}
+
+.contenido-cinta {
+    display: inline-block;
+    padding-left: 100%;
+    animation: moverCinta 20s linear infinite;
+}
+
+.contenido-cinta span {
+    display: inline-block;
+    padding-right: 50px; /* Separación entre las frases */
+}
+
+@keyframes moverCinta {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Opcional: Ajustar el margen del header para que la cinta no lo tape */
+body {
+    padding-top: 35px; 
+}
