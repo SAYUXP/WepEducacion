@@ -9,14 +9,12 @@
     --dark: var(--verde-bosque);
     --cell-size: 60px;
 }
-
 body {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
     margin: 0;
     background-color: var(--bg-color);
     color: var(--tierra);
 }
-
 /* HEADER */
 .main-header {
     background: var(--dark);
@@ -29,7 +27,6 @@ body {
     box-sizing: border-box;
     box-shadow: 0 2px 10px rgba(74, 124, 89, 0.2);
 }
-
 .main-header h1 {
     font-size: 1.2rem;
     margin: 0;
@@ -37,7 +34,6 @@ body {
     font-family: 'Georgia', serif; /* Toque elegante */
     letter-spacing: 1px;
 }
-
 /* MENÚ LATERAL (Estilo Botánico) */
 #menu-lateral {
     position: fixed;
@@ -55,13 +51,11 @@ body {
     visibility: hidden;
     border-right: 1px solid #d1d9cf;
 }
-
 #menu-lateral.active {
     left: 0;
     visibility: visible;
     box-shadow: 5px 0 25px rgba(0,0,0,0.1);
 }
-
 #ui-menu_busqueda {
     background: var(--verde-bosque);
     color: white;
@@ -70,11 +64,9 @@ body {
     font-size: 1.3rem;
     text-align: center;
 }
-
 .search-box {
     padding: 20px;
 }
-
 #buscador {
     width: 100%;
     padding: 12px;
@@ -84,12 +76,10 @@ body {
     outline: none;
     transition: 0.3s;
 }
-
 #buscador:focus {
     border-color: var(--verde-bosque);
     box-shadow: 0 0 10px rgba(143, 203, 155, 0.3);
 }
-
 /* ACORDEONES */
 .grupo-filtro h3 {
     cursor: pointer;
@@ -180,7 +170,8 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* TABLA PERIÓDICA */.grid-table {
+/* TABLA PERIÓDICA */
+.grid-table {
     display: grid;
     /* Cambia las siguientes dos líneas: */
     grid-template-columns: repeat(18, var(--cell-size)); 
@@ -191,9 +182,6 @@ button:hover {
     overflow-x: auto;
     background-color: var(--crema-fondo);
 }
-
-
-
 .celda-base {
     border: 1px solid transparent; /* Antes era #d1d9cf */
     background-color: transparent; /* Antes era var(--blanco-puro) */
@@ -524,10 +512,6 @@ button:hover {
         text-align: center;
     }
 }
-
-
-
-
 /* Estado del botón de filtro cuando está activo */
 .btn-filtro-activo {
     background-color: var(--verde-bosque) !important;
@@ -536,7 +520,8 @@ button:hover {
     box-shadow: 0 0 10px rgba(74, 124, 89, 0.4);
 }
 
-/* La letra del bloque en la esquina inferior derecha de la celda */.bloque-tag {
+/* La letra del bloque en la esquina inferior derecha de la celda */
+.bloque-tag {
     position: absolute;
     bottom: 2px;
     right: 4px;
@@ -600,22 +585,16 @@ button:hover {
     z-index: 5;
     position: relative;
 }
-
-
-
 .glow-inestable {
     border: 2px solid #FF3131 !important; /* Rojo Neón */
     box-shadow: inset 0 0 8px #FF3131, 0 0 15px #FF3131 !important;
     z-index: 5;
     position: relative;
 }
-
-
 /* Ajuste para que el brillo se vea bien */
 .celda-base {
     transition: all 0.3s ease;
 }
-
 /*VENTANA DE INFORMACION*/
 .modal-info {
     position: fixed;
@@ -623,17 +602,25 @@ button:hover {
     background: rgba(0, 0, 0, 0.8);
     display: flex; justify-content: center; align-items: center;
     z-index: 2000; transition: opacity 0.3s;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .modal-info.hidden { display: none; }
-
 .modal-info-content {
     background: var(--crema-fondo);
     color: var(--verde-bosque);
-    padding: 2rem; border-radius: 15px;
-    width: 90%; max-width: 500px;
-    position: relative; border: 2px solid var(--verde-hoja);
+    padding: 1.5rem; 
+    border-radius: 15px;
+    width: 90%; 
+    max-width: 500px;
+    position: relative; 
+    border: 2px solid var(--verde-hoja);
+    
+    /* NUEVAS REGLAS PARA EL SCROLL */
+    max-height: 85vh; /* Ocupa máximo el 85% de la altura de la pantalla */
+    display: flex;
+    flex-direction: column; /* Organiza el header y el cuerpo verticalmente */
+    overflow: hidden; /* Evita que el borde se rompa */
 }
-
 .info-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
 #info-simbolo-caja { width: 80px; height: 80px; font-size: 1.5rem; pointer-events: none; }
 .info-titulo h2 { font-size: 2rem; margin: 0; }
@@ -649,40 +636,42 @@ button:hover {
 /********************************/
 /********************************/
 /********************************/
-.cinta-trabajando {
-    width: 100%;
-    background-color: #ffd700; /* Un color amarillo "obra" o puedes usar var(--verde-hoja) */
-    color: #000;
-    overflow: hidden;
-    position: fixed;
-    top: 0; /* Cambia a 'bottom: 0' si la prefieres abajo */
-    left: 0;
-    z-index: 9999; /* Para que esté por encima de todo */
-    padding: 8px 0;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    white-space: nowrap;
-    pointer-events: none; /* Para que no estorbe si quieres hacer clic debajo */
+.info-cuerpo section {
+    margin-bottom: 20px;
+}
+/* 2. Ajuste del cuerpo del modal (donde están los textos) */
+.info-cuerpo {
+    overflow-y: auto; /* Activa el scroll vertical solo aquí */
+    padding-right: 10px; /* Espacio para que el scroll no tape el texto */
+    margin-top: 10px;
+}
+/* 3. Estilizar la barra de scroll para que combine con tu diseño Zen */
+.info-cuerpo::-webkit-scrollbar {
+    width: 6px;
 }
 
-.contenido-cinta {
-    display: inline-block;
-    padding-left: 100%;
-    animation: moverCinta 20s linear infinite;
+.info-cuerpo::-webkit-scrollbar-track {
+    background: rgba(143, 203, 155, 0.1);
+    border-radius: 10px;
 }
 
-.contenido-cinta span {
-    display: inline-block;
-    padding-right: 50px; /* Separación entre las frases */
+.info-cuerpo::-webkit-scrollbar-thumb {
+    background: var(--verde-hoja);
+    border-radius: 10px;
 }
-
-@keyframes moverCinta {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+/* 4. Asegurar que el botón de cerrar esté siempre visible y arriba */
+#btn-cerrar-info {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 10;
+    font-size: 2rem;
+    line-height: 1;
 }
-
-/* Opcional: Ajustar el margen del header para que la cinta no lo tape */
-body {
-    padding-top: 35px; 
+.modal-info.fade-out {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+#info-fusion, #info-ebullicion {
+    transition: opacity 0.3s ease;
 }

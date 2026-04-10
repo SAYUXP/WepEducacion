@@ -46,9 +46,11 @@
 
   <meta property="og:type" content="website">
 
-  <meta property="og:url" content="https://sayuxp.github.io/tu-repo/tabla-periodica/">
+  <meta property="og:url" content="https://sayuxp.github.io/WepEducacion/">
 
-  <meta property="og:image" content="https://sayuxp.github.io/tu-repo/TablaQuimica.jpg">
+
+  <meta property="og:image" content="https://sayuxp.github.io/WepEducacion/TablaQuimica.jpg">
+
 
 
   <link rel="icon" href="favicon.ico">
@@ -75,14 +77,7 @@
 
 
 <body class="tema-blanco">
-<div class="cinta-trabajando">
-    <div class="contenido-cinta">
-        <span>⚠️ SITIO EN DESARROLLO - TRABAJANDO EN LA PÁGINA ACTUALMENTE 🧪</span>
-        <span>⚠️ SITIO EN DESARROLLO - TRABAJANDO EN LA PÁGINA ACTUALMENTE 🧪</span>
-        <span>⚠️ SITIO EN DESARROLLO - TRABAJANDO EN LA PÁGINA ACTUALMENTE 🧪</span>
-        <span>⚠️ SITIO EN DESARROLLO - TRABAJANDO EN LA PÁGINA ACTUALMENTE 🧪</span>
-    </div>
-</div>
+
 
     <header class="main-header">
         <button id="btn-menu" class="btn-icon">☰</button>
@@ -279,26 +274,36 @@
 
         <div class="info-cuerpo">
             <section>
-                <h3>Descripción</h3>
-                <p id="info-descripcion"></p>
+                <h3 data-i18n="InfoBasica">Información Básica</h3>
+                <div class="stats-grid">
+                    <div class="stat-item"><span data-i18n="EstadoLabel">Estado:</span> <strong id="info-estado"></strong></div>
+                    <div class="stat-item"><span data-i18n="FusionLabel">P. Fusión:</span> <strong id="info-fusion"></strong></div>
+                    <div class="stat-item"><span data-i18n="EbullicionLabel">P. Ebullición:</span> <strong id="info-ebullicion"></strong></div>
+                </div>
             </section>
             
             <section>
-                <h3>Estructura Atómica</h3>
+                <h3 data-i18n="EstructuraAtomo">Estructura Atómica</h3>
                 <div class="stats-grid">
-                    <div class="stat-item"><span>Protones:</span> <strong id="info-protones"></strong></div>
-                    <div class="stat-item"><span>Neutrones:</span> <strong id="info-neutrones"></strong></div>
-                    <div class="stat-item"><span>Electrones:</span> <strong id="info-electrones"></strong></div>
+                    <div class="stat-item"><span data-i18n="Protones">Protones:</span> <strong id="info-protones"></strong></div>
+                    <div class="stat-item"><span data-i18n="Neutrones">Neutrones:</span> <strong id="info-neutrones"></strong></div>
+                    <div class="stat-item"><span data-i18n="Electrones">Electrones:</span> <strong id="info-electrones"></strong></div>
                 </div>
             </section>
 
             <section>
-                <h3>Principales Usos</h3>
+                <h3 data-i18n="UsosTitulo">Principales Usos</h3>
                 <ul id="info-usos"></ul>
+            </section>
+
+            <section>
+                <h3 data-i18n="DescripTitulo">Descripción</h3>
+                <p id="info-descripcion"></p>
             </section>
         </div>
     </div>
 </div>
+
 
     <script src="informacion.js"></script>
     <script src="js.js"></script>

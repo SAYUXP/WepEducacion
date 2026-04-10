@@ -37,7 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
             EducacionTXT:"Recurso pedagógico de química pura y aplicada.",
             Privacidad:"Privacidad",
             PrivasidadTXT:"App estática: no cookies, no tracking. 100% Privado.",
-            TamañoCeldas:"Tamaño de Celdas"
+            TamañoCeldas:"Tamaño de Celdas",
+            //============================
+            InfoBasica: "Información Básica",
+            EstadoLabel: "Estado",
+            FusionLabel: "P. Fusión",
+            EbullicionLabel: "P. Ebullición",
+            EstructuraAtomo: "Estructura Atómica",
+            Protones: "Protones",
+            Neutrones: "Neutrones",
+            Electrones: "Electrones",
+            UsosTitulo: "Principales Usos",
+            DescripTitulo: "Descripción"
         },
         en: {
             h1:"PERIODIC TABLE",
@@ -76,9 +87,60 @@ document.addEventListener('DOMContentLoaded', () => {
             Privacidad:"Privacy",
             PrivasidadTXT:"Static app: no cookies, no tracking. 100% Private.",
             
-            TamañoCeldas:"Cell size"
+            TamañoCeldas:"Cell size",
+            //===========================
+            InfoBasica: "Basic Information",
+            EstadoLabel: "State",
+            FusionLabel: "Melting Pt",
+            EbullicionLabel: "Boiling Pt",
+            EstructuraAtomo: "Atomic Structure",
+            Protones: "Protons",
+            Neutrones: "Neutrons",
+            Electrones: "Electrons",
+            UsosTitulo: "Main Uses",
+            DescripTitulo: "Description"
         }
     };
+    // VARIABLES PARA LA ROTACIÓN DE TEMPERATURAS
+let unidadActual = 'c'; // Empezamos con Celsius
+const unidades = ['c', 'f', 'k'];
+let intervaloTemperatura;
+
+function iniciarRotacionTemperaturas(el) {
+    // Limpiamos cualquier intervalo previo para que no se aceleren
+    clearInterval(intervaloTemperatura);
+
+    // Función que actualiza el texto en el modal
+    const actualizarTexto = () => {
+        const f_val = el.propiedades_fisicas?.fusion?.[unidadActual];
+        const e_val = el.propiedades_fisicas?.ebullicion?.[unidadActual];
+
+        // Formateamos el símbolo de la unidad
+        const simboloUnidad = unidadActual === 'k' ? ' K' : ` °${unidadActual.toUpperCase()}`;
+
+        document.getElementById('info-fusion').textContent = f_val !== undefined ? `${f_val}${simboloUnidad}` : "N/A";
+        document.getElementById('info-ebullicion').textContent = e_val !== undefined ? `${e_val}${simboloUnidad}` : "N/A";
+        
+        // Efecto visual rápido para que el usuario note el cambio (opcional)
+        document.getElementById('info-fusion').style.opacity = 0.5;
+        document.getElementById('info-ebullicion').style.opacity = 0.5;
+        setTimeout(() => {
+            document.getElementById('info-fusion').style.opacity = 1;
+            document.getElementById('info-ebullicion').style.opacity = 1;
+        }, 200);
+    };
+
+    // Primera ejecución inmediata
+    actualizarTexto();
+
+    // Configurar el cambio cada 3 segundos
+    intervaloTemperatura = setInterval(() => {
+        // Pasar a la siguiente unidad: c -> f -> k -> c...
+        let index = unidades.indexOf(unidadActual);
+        unidadActual = unidades[(index + 1) % unidades.length];
+        actualizarTexto();
+    }, 3000);
+}
 
     // 1. SELECTORES
     const menuLateral = document.getElementById('menu-lateral');
@@ -160,37 +222,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. FUNCIÓN MOSTRAR INFORMACIÓN (ACTUALIZADA PARA TRADUCCIÓN)
     function mostrarInformacionElemento(el) {
-        if (!modalElemento) return;
+    if (!modalElemento) return;
 
-        // Rellenar datos según idioma actual
-        document.getElementById('info-nombre').textContent = el.nombre[idiomaActual] || el.nombre.es;
-        document.getElementById('info-simbolo').textContent = el.simbolo;
-        document.getElementById('info-numero').textContent = el.numero_atomico;
-        document.getElementById('info-descripcion').textContent = el.descripcion[idiomaActual] || el.descripcion.es;
-        
-        // Rellenar tipo/clasificación
-        const txtTipo = el.divisiones?.tipo_de_elemento?.[idiomaActual] || el.divisiones?.tipo_de_elemento?.es || "";
-        document.getElementById('info-tipo').textContent = txtTipo.toUpperCase();
+    // Título y Cabecera
+    document.getElementById('info-nombre').textContent = el.nombre[idiomaActual] || el.nombre.es;
+    document.getElementById('info-simbolo').textContent = el.simbolo;
+    document.getElementById('info-numero').textContent = el.numero_atomico;
+    
+    // 1. INFORMACIÓN BÁSICA
+    document.getElementById('info-estado').textContent = el.divisiones?.estado?.[idiomaActual] || el.divisiones?.estado?.es || "-";
+    
+    // --- CAMBIO AQUÍ: Rotación dinámica de temperaturas (C, F, K) ---
+    iniciarRotacionTemperaturas(el);
+    // ---------------------------------------------------------------
 
-        // Rellenar estructura atómica
-        document.getElementById('info-protones').textContent = el.estructura_atomica?.protones || 0;
-        document.getElementById('info-neutrones').textContent = el.estructura_atomica?.neutrones || 0;
-        document.getElementById('info-electrones').textContent = el.estructura_atomica?.electrones || 0;
+    // 2. ESTRUCTURA ATÓMICA
+    document.getElementById('info-protones').textContent = el.estructura_atomica?.protones || 0;
+    document.getElementById('info-neutrones').textContent = el.estructura_atomica?.neutrones || 0;
+    document.getElementById('info-electrones').textContent = el.estructura_atomica?.electrones || 0;
 
-        // Rellenar Usos
-        const listaUsos = document.getElementById('info-usos');
-        listaUsos.innerHTML = '';
-        const usosTraducidos = el.usos?.[idiomaActual] || el.usos?.es || [];
-        usosTraducidos.forEach(uso => {
-            const li = document.createElement('li');
-            li.textContent = uso;
-            listaUsos.appendChild(li);
-        });
+    // 3. USOS
+    const listaUsos = document.getElementById('info-usos');
+    listaUsos.innerHTML = '';
+    const usosTraducidos = el.usos?.[idiomaActual] || el.usos?.es || [];
+    usosTraducidos.forEach(uso => {
+        const li = document.createElement('li');
+        li.textContent = uso;
+        listaUsos.appendChild(li);
+    });
 
-        // Mostrar modal y overlay
-        modalElemento.classList.remove('hidden');
-        overlay.classList.add('active');
-    }
+    // 4. DESCRIPCIÓN
+    document.getElementById('info-descripcion').textContent = el.descripcion[idiomaActual] || el.descripcion.es;
+    
+    // Subtítulo de tipo
+    const txtTipo = el.divisiones?.tipo_de_elemento?.[idiomaActual] || el.divisiones?.tipo_de_elemento?.es || "";
+    document.getElementById('info-tipo').textContent = txtTipo.toUpperCase();
+
+    // Mostrar modal
+    modalElemento.classList.remove('hidden');
+    overlay.classList.add('active');
+}
+
+
 
     // 4. EVENTOS DE NAVEGACIÓN Y MENÚS
     btnMenu.onclick = () => { menuLateral.classList.add('active'); overlay.classList.add('active'); };
@@ -206,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCerrarInfo.onclick = () => {
             modalElemento.classList.add('hidden');
             overlay.classList.remove('active');
+            clearInterval(intervaloTemperatura); // <--- DETENER LA ROTACIÓN
         };
     }
 
@@ -410,6 +484,58 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // VARIABLES PARA EL DESLIZAMIENTO (SWIPE)
+let touchStartX = 0;
+let touchEndX = 0;
+
+// Función para navegar entre elementos
+function navegarElemento(direccion) {
+    // 1. Obtener el número atómico actual del modal
+    const numeroActual = parseInt(document.getElementById('info-numero').textContent);
+    
+    // 2. Calcular el siguiente número (direccion: 1 es derecha, -1 es izquierda)
+    // Asumiendo que tienes 118 elementos
+    let siguienteNumero = numeroActual + direccion;
+    
+    if (siguienteNumero < 1) siguienteNumero = 118; // Si baja de 1, va al último
+    if (siguienteNumero > 118) siguienteNumero = 1;  // Si pasa de 118, va al primero
+
+    // 3. Buscar el objeto del elemento en tu array 'elementos'
+    const siguienteEl = elementos.find(el => el.numero_atomico === siguienteNumero);
+    
+    if (siguienteEl) {
+        // 4. Actualizar el modal con una pequeña animación (opcional)
+        modalElemento.classList.add('fade-out'); // Necesitas este CSS abajo
+        setTimeout(() => {
+            mostrarInformacionElemento(siguienteEl);
+            modalElemento.classList.remove('fade-out');
+            // Resetear el scroll del cuerpo al cambiar de elemento
+            document.querySelector('.info-cuerpo').scrollTop = 0;
+        }, 150);
+    }
+}
+
+// EVENTOS DE TOUCH
+modalElemento.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+modalElemento.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleGesture();
+}, {passive: true});
+
+function handleGesture() {
+    const umbral = 50; // Distancia mínima para detectar el deslizamiento
+    if (touchEndX < touchStartX - umbral) {
+        // Deslizó a la izquierda -> Siguiente elemento (Helio)
+        navegarElemento(1);
+    }
+    if (touchEndX > touchStartX + umbral) {
+        // Deslizó a la derecha -> Elemento anterior (Hidrógeno)
+        navegarElemento(-1);
+    }
+}
 
     generarCeldas();
     traducirInterfaz(); // Llamada inicial para aplicar el idioma por defecto
